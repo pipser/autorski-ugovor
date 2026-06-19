@@ -256,39 +256,39 @@ select {
 <main>
   <div class="page-eyebrow">Vaši podaci</div>
   <h1>Ispunite formu</h1>
-  <p class="intro">Ispunite osobne podatke potrebne za sastavljanje autorskog ugovora. Producent ce vas kontaktirati u vezi s potpisivanjem.</p>
+  <p class="intro">Ispunite osobne podatke potrebne za sastavljanje autorskog ugovora. Producent će vas kontaktirati u vezi s potpisivanjem.</p>
 
   <div class="fsec">
     <div class="ftitle">Osobni podaci</div>
     <div class="grid">
       <div class="f s2" id="f-ime">
         <label>Ime i prezime <span class="r">*</span></label>
-        <input type="text" id="ime" placeholder="npr. Ana Horvat" autocomplete="name">
+        <input type="text" id="ime" placeholder="" autocomplete="name">
         <span class="errmsg">Unesite ime i prezime.</span>
       </div>
       <div class="f s2" id="f-adresa">
         <label>Adresa (ulica i broj) <span class="r">*</span></label>
-        <input type="text" id="adresa" placeholder="npr. Ilica 45" autocomplete="street-address">
+        <input type="text" id="adresa" placeholder="" autocomplete="street-address">
         <span class="errmsg">Unesite adresu.</span>
       </div>
       <div class="f" id="f-pbr">
-        <label>Postanski broj <span class="r">*</span></label>
-        <input type="text" id="pbr" placeholder="10000" inputmode="numeric" maxlength="6">
-        <span class="errmsg">4-6 znamenki.</span>
+        <label>Poštanski broj <span class="r">*</span></label>
+        <input type="text" id="pbr" placeholder="" inputmode="numeric" maxlength="6">
+        <span class="errmsg">4–6 znamenki.</span>
       </div>
       <div class="f" id="f-grad">
         <label>Grad <span class="r">*</span></label>
-        <input type="text" id="grad" placeholder="Zagreb">
+        <input type="text" id="grad" placeholder="">
         <span class="errmsg">Unesite grad.</span>
       </div>
       <div class="f" id="f-oib">
         <label>OIB <span class="r">*</span></label>
-        <input type="text" id="oib" placeholder="00000000000" maxlength="11" inputmode="numeric">
+        <input type="text" id="oib" placeholder="" maxlength="11" inputmode="numeric">
         <span class="errmsg">OIB mora imati 11 znamenki.</span>
       </div>
       <div class="f" id="f-iban">
         <label>IBAN <span class="r">*</span></label>
-        <input type="text" id="iban" placeholder="HR..." maxlength="21">
+        <input type="text" id="iban" placeholder="" maxlength="21">
         <span class="errmsg">Format: HR + 19 znakova.</span>
       </div>
     </div>
@@ -309,7 +309,7 @@ select {
       <div class="f s2">
         <div class="pdv-preview">
           <div class="pdv-preview-label">Tekst koji ulazi u ugovor</div>
-          <div id="pdv-text">PRODUCENT ce izvrsiti uplatu poreza, prireza i eventualnih doprinosa, a AUTORU isplatiti pripadajuci neto iznos.</div>
+          <div id="pdv-text">PRODUCENT će izvršiti uplatu poreza, prireza i eventualnih doprinosa, a AUTORU isplatiti pripadajući neto iznos.</div>
         </div>
       </div>
     </div>
@@ -319,37 +319,42 @@ select {
     <div class="ftitle">Strukovne organizacije</div>
     <div class="grid">
       <div class="f s2">
-        <label>Jeste li clan/ica strukovne organizacije?</label>
+        <label>Jeste li član/ica strukovne organizacije?</label>
         <div class="toggle">
           <input type="radio" name="clan" id="clan0" value="ne" checked>
-          <label for="clan0">Nisam clan/ica</label>
+          <label for="clan0">Nisam član/ica</label>
           <input type="radio" name="clan" id="clan1" value="da">
-          <label for="clan1">Jesam clan/ica</label>
+          <label for="clan1">Jesam član/ica</label>
         </div>
       </div>
       <div class="f s2" id="f-org" style="display:none">
         <label>Organizacija <span class="r">*</span></label>
-        <select id="org">
+        <select id="org" onchange="toggleOstalo()">
           <option value="">— Odaberi —</option>
-          <option>Drustvo hrvatskih filmskih redatelja (DHFR)</option>
+          <option>Društvo hrvatskih filmskih redatelja (DHFR)</option>
           <option>Hrvatska udruga dramskih umjetnika (HUDA)</option>
           <option>Hrvatska udruga filmskih skladatelja (HUFS)</option>
-          <option>Drustvo hrvatskih scenarista (DHS)</option>
+          <option>Društvo hrvatskih scenarista (DHS)</option>
           <option>Hrvatska udruga kostimografa (HUK)</option>
           <option>Hrvatska udruga scenografa (HUS)</option>
-          <option>Drustvo hrvatskih filmskih snimatelja (DHFS)</option>
+          <option>Društvo hrvatskih filmskih snimatelja (DHFS)</option>
           <option>Sindikat hrvatskih glumaca (SHG)</option>
           <option>Hrvatska glazbena unija (HGU)</option>
           <option>Hrvatska udruga producenata (HUP)</option>
-          <option>Ostalo</option>
+          <option value="Ostalo">Ostalo</option>
         </select>
         <span class="errmsg">Odaberite organizaciju.</span>
+      </div>
+      <div class="f s2" id="f-org-ostalo" style="display:none">
+        <label>Naziv organizacije <span class="r">*</span></label>
+        <input type="text" id="org-ostalo" placeholder="npr. Hrvatska udruga dramskih umjetnika (HUDA)">
+        <span class="errmsg">Unesite naziv organizacije.</span>
       </div>
     </div>
   </div>
 
   <div class="btn-row">
-    <button class="btn" id="btn-submit" onclick="submitForm()">Posalji podatke</button>
+    <button class="btn" id="btn-submit" onclick="submitForm()">Pošalji podatke</button>
   </div>
   <div id="result" style="display:none"></div>
 </main>
@@ -363,13 +368,21 @@ function setErr(id, show){ const el=document.getElementById('f-'+id); if(el) el.
 document.addEventListener('change', function(e){
   if(e.target.name==='pdv'){
     document.getElementById('pdv-text').textContent = e.target.value==='Obveznik PDV-a'
-      ? 'Autor je obveznik PDV-a te se na iznos obracunava PDV, a sve se isplate vrse sukladno primljenim sredstvima.'
-      : 'PRODUCENT ce izvrsiti uplatu poreza, prireza i eventualnih doprinosa, a AUTORU isplatiti pripadajuci neto iznos.';
+      ? 'Autor je obveznik PDV-a te se na iznos obračunava PDV, a sve se isplate vrše sukladno primljenim sredstvima.'
+      : 'PRODUCENT će izvršiti uplatu poreza, prireza i eventualnih doprinosa, a AUTORU isplatiti pripadajući neto iznos.';
   }
   if(e.target.name==='clan'){
     document.getElementById('f-org').style.display = e.target.value==='da' ? '' : 'none';
+    if(e.target.value==='ne'){
+      document.getElementById('f-org-ostalo').style.display='none';
+    }
   }
 });
+
+function toggleOstalo(){
+  const val = document.getElementById('org').value;
+  document.getElementById('f-org-ostalo').style.display = val==='Ostalo' ? '' : 'none';
+}
 
 async function submitForm(){
   let ok = true;
@@ -385,11 +398,19 @@ async function submitForm(){
   });
 
   var clan = document.querySelector('input[name=clan]:checked').value;
-  if(clan==='da'){ var ov=gv('org'); setErr('org',!ov); if(!ov) ok=false; }
+  if(clan==='da'){
+    var ov=gv('org'); setErr('org',!ov); if(!ov) ok=false;
+    if(ov==='Ostalo'){
+      var oov=gv('org-ostalo').trim();
+      var fel=document.getElementById('f-org-ostalo');
+      if(fel) fel.classList.toggle('err',!oov);
+      if(!oov) ok=false;
+    }
+  }
   if(!ok) return;
 
   var btn = document.getElementById('btn-submit');
-  btn.innerHTML = '<span class="spin"></span>Saljem...';
+  btn.innerHTML = '<span class="spin"></span>Šaljem…';
   btn.disabled = true;
 
   var payload = {
@@ -400,7 +421,7 @@ async function submitForm(){
     oib:    gv('oib').trim(),
     iban:   gv('iban').trim().replace(/\s/g,''),
     pdv:    document.querySelector('input[name=pdv]:checked').value,
-    org:    clan==='da' ? gv('org') : '—'
+    org:    clan==='da' ? (gv('org')==='Ostalo' ? gv('org-ostalo').trim() : gv('org')) : '—'
   };
 
   try {
@@ -413,12 +434,12 @@ async function submitForm(){
 
     btn.style.display = 'none';
     document.getElementById('result').style.display = '';
-    document.getElementById('result').innerHTML = '<div class="success"><div class="success-icon">✅</div><h2>Podaci su poslani</h2><p>Hvala! Producent ce vas kontaktirati u vezi s potpisivanjem ugovora.</p></div>';
+    document.getElementById('result').innerHTML = '<div class="success"><div class="success-icon">✅</div><h2>Podaci su poslani</h2><p>Hvala! Producent će vas kontaktirati u vezi s potpisivanjem ugovora.</p></div>';
     document.getElementById('result').scrollIntoView({behavior:'smooth', block:'center'});
   } catch(err) {
-    btn.innerHTML = 'Posalji podatke';
+    btn.innerHTML = 'Pošalji podatke';
     btn.disabled = false;
-    alert('Greska pri slanju: ' + err.message);
+    alert('Greška pri slanju: ' + err.message);
   }
 }
 </script>
