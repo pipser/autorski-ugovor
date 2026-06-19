@@ -39,6 +39,16 @@ header {
   z-index: 100;
 }
 
+@media (max-width: 600px) {
+  header {
+    position: relative;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    padding: 1.2rem 1.5rem;
+    width: 100%;
+  }
+}
+
 .logos {
   display: flex;
   align-items: center;
@@ -70,6 +80,10 @@ header {
 }
 
 main { max-width: 600px; margin: 0 auto; padding: 6rem 2rem 20rem; }
+
+@media (max-width: 600px) {
+  main { padding: 1.5rem 1rem 20rem; }
+}
 
 .form-card {
   background: rgba(255, 255, 255, 0.93);
