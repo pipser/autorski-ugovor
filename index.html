@@ -41,12 +41,15 @@ header {
 
 @media (max-width: 600px) {
   header {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     background: rgba(0,0,0,0.45);
     backdrop-filter: blur(8px);
     padding: 1.2rem 1.5rem;
-    width: 100%;
   }
+  main { padding-top: 5rem; }
 }
 
 .logos {
